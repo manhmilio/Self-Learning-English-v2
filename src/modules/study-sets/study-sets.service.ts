@@ -134,7 +134,7 @@ export class StudySetsService {
 
     // ─── Internal: dùng bởi CardsService để cập nhật card_count ───────────────
 
-    async updateCardCount(studySetId: string, delta: 1 | -1): Promise<void> {
+    async updateCardCount(studySetId: string, delta: number): Promise<void> {
         await this.studySetModel.findByIdAndUpdate(studySetId, {
             $inc: { card_count: delta },
         });
