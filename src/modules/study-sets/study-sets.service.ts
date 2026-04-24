@@ -25,6 +25,32 @@ export class StudySetsService {
         });
     }
 
+    // Lấy tất cả sets theo folder
+    async findByFolderId(folderId: string, userId: string) {
+        return this.studySetModel
+            .find({
+                folder_id: new Types.ObjectId(folderId),
+                owner_id: new Types.ObjectId(userId),
+            })
+            .select('-__v')
+            .lean();
+    }
+
+    // Gán hoặc gỡ folder_id cho set (null = gỡ khỏi folder)
+    async assignFolder(setId: string, folderId: string | null): Promise<void> {
+        await this.studySetModel.findByIdAndUpdate(setId, {
+            folder_id: folderId ? new Types.ObjectId(folderId) : null,
+        });
+    }
+
+    // Gỡ folder_id khỏi tất cả sets khi xóa folder
+    async removeFolderFromSets(folderId: string): Promise<void> {
+        await this.studySetModel.updateMany(
+            { folder_id: new Types.ObjectId(folderId) },
+            { folder_id: null },
+        );
+    }
+
     // ─── Read: danh sách sets của chính mình ───────────────────────────────────
 
     async findMyStudySets(userId: string, query: QueryStudySetDto) {
@@ -152,5 +178,14 @@ export class StudySetsService {
         }
 
         return studySet;
+    }
+
+    async isOwner(setId: string, userId: string): Promise<boolean> {
+        const set = await this.studySetModel
+            .findById(setId)
+            .select('owner_id')
+            .lean();
+        if (!set) throw new NotFoundException('Study set không tồn tại');
+        return set.owner_id.toString() === userId;
     }
 }

@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudySetsModule } from './modules/study-sets/study-sets.module';
 import { CardsModule } from './modules/cards/cards.module'
+import { FoldersModule } from './modules/folders/folders.module';
 import { envValidationSchema } from './config/env.validation';
 
 @Module({
@@ -24,6 +25,7 @@ import { envValidationSchema } from './config/env.validation';
     AuthModule,
     StudySetsModule,
     CardsModule,
+    FoldersModule,
   ],
 })
 export class AppModule { }
