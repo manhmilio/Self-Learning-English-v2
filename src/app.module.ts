@@ -7,6 +7,7 @@ import { StudySetsModule } from './modules/study-sets/study-sets.module';
 import { CardsModule } from './modules/cards/cards.module'
 import { FoldersModule } from './modules/folders/folders.module';
 import { envValidationSchema } from './config/env.validation';
+import { ProgressModule } from './modules/progress/progress.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { envValidationSchema } from './config/env.validation';
     StudySetsModule,
     CardsModule,
     FoldersModule,
+    ProgressModule,
   ],
 })
 export class AppModule { }

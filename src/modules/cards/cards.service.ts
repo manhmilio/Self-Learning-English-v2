@@ -130,4 +130,12 @@ export class CardsService {
     await this.checkOwnership(card.study_set_id.toString(), userId);
     return card;
   }
+
+  async findByStudySetInternal(studySetId: string) {
+    return this.cardModel
+      .find({ study_set_id: new Types.ObjectId(studySetId) })
+      .sort({ order: 1 })
+      .select('-__v')
+      .lean();
+  }
 }

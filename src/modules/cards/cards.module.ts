@@ -12,6 +12,7 @@ import { StudySetsModule } from '../study-sets/study-sets.module';
     ],
     providers: [CardsService],
     controllers: [CardsController],
+    exports: [CardsService],
 })
 
 export class CardsModule {}
