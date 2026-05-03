@@ -49,4 +49,35 @@ export class AuthService {
 
         return { accessToken, refreshToken };
     }
+
+    // Authorization refresh token
+    async refresh(refreshToken: string) {
+        if (!refreshToken) {
+            throw new UnauthorizedException('Không tìm thấy refresh token');
+        }
+
+        try {
+            // Verify refresh token
+            const payload = this.jwtService.verify(refreshToken, {
+                secret: this.config.get<string>('JWT_REFRESH_SECRET')!,
+            });
+
+            // Kiểm tra user vẫn còn tồn tại
+            const user = await this.usersService.findById(payload.sub);
+            if (!user) throw new UnauthorizedException('User không tồn tại');
+
+            // Cấp accessToken mới
+            const accessToken = this.jwtService.sign(
+                { sub: user._id, email: user.email, role: user.role },
+                {
+                    secret: this.config.get<string>('JWT_ACCESS_SECRET')!,
+                    expiresIn: this.config.get('JWT_ACCESS_EXPIRES'),
+                },
+            );
+
+            return { accessToken };
+        } catch (error) {
+            throw new UnauthorizedException('Refresh token không hợp lệ hoặc đã hết hạn');
+        }
+    }
 }

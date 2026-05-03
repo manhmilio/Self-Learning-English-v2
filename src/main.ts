@@ -1,12 +1,16 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const cookieParser = require('cookie-parser');
 
   app.setGlobalPrefix('api');
+  app.use(cookieParser());
+
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
