@@ -4,7 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StudySetsModule } from './modules/study-sets/study-sets.module';
+import { CardsModule } from './modules/cards/cards.module'
+import { FoldersModule } from './modules/folders/folders.module';
+import { SessionsModule } from './modules/sessions/sessions.module'
 import { envValidationSchema } from './config/env.validation';
+import { ProgressModule } from './modules/progress/progress.module';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { envValidationSchema } from './config/env.validation';
     UsersModule,
     AuthModule,
     StudySetsModule,
+    CardsModule,
+    FoldersModule,
+    ProgressModule,
+    SessionsModule,
   ],
 })
 export class AppModule { }
